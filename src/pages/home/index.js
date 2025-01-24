@@ -89,6 +89,9 @@ export default function Home() {
   const [frequenciaMed, setFrequenciaMed] = useState([])
   const [dosagemMed, setDosagemMed] = useState([])
   const [obsTratamento, setObsTratamento] = useState([])
+  const [imc, setImc] = useState([])
+  const [peso, setPeso] = useState([])
+  const [altura, setAltura] = useState([])
 
   const steps = [
     {
@@ -105,6 +108,10 @@ export default function Home() {
     },
     {
       id: 'DADOSSAUDE',
+      title: "Dados de Saúde e Condição Física"
+    },
+    {
+      id: 'DADOSMACOM',
       title: "Dados de Saúde e Condição Física"
     }
   ];
@@ -220,6 +227,29 @@ export default function Home() {
 
     }
 
+    if (event.target.name.split("-")[0] === "peso" || event.target.name === "peso") {
+      setPeso(event.target.value)
+      let imcRes = peso/ (altura * altura)
+      setImc(imcRes.toFixed(2))
+
+      setFormData({
+        name: "imc",
+        value: (peso / (altura * altura))
+      })
+    }
+
+    if (event.target.name.split("-")[0] === "altura" || event.target.name === "altura") {
+      setAltura(event.target.value)
+      let imcRes = peso/ (event.target.value * event.target.value)
+      console.log("altura e peso", altura, peso)
+      console.log("imc", imcRes, imc)
+      setImc(imcRes.toFixed(2))
+      setFormData({
+        name: "imc",
+        value: (peso / (altura * altura))
+      })
+    }
+
     if (event.target.name.split("-")[0] === "obsTratamento" || event.target.name === "obsTratamento") {
       nomeMedicamento[event.target.id] = {
         ...nomeMedicamento[event.target.id],
@@ -293,6 +323,7 @@ export default function Home() {
       formData,
       idMacom: "asdSDSoa"
     }).then(rs => {
+      console.log(rs.data)
       window.location.replace("/")
     }).catch(err => alert("Erro ao cadastrar usuário!"))
 
@@ -382,17 +413,6 @@ export default function Home() {
                       name="dataNascimento"
                       label="Data de Nascimento:"
                       type="date"
-                      required />
-                  </CCol>
-                  <CCol xs={12}>
-                    <CFormInput
-                      value={formData.email}
-                      onChange={e => handleChange(e, validateEmail(e.target.value))}
-                      feedback="Digite um E-mail válido."
-                      name="email"
-                      id="inputEmail"
-                      label="Email:"
-                      placeholder="Digite seu E-mail"
                       required />
                   </CCol>
                   <CCol md={6}>
@@ -1079,7 +1099,7 @@ export default function Home() {
                       onChange={e => handleChange(e, e.target.value)}
                       feedback="Digite o IMC."
                       name="imc"
-                      value={formData.imc || ''}
+                      value={imc}
                       type="text"
                       id="imc"
                       label="Indice de Massa Corporal (IMC)"
@@ -1223,7 +1243,55 @@ export default function Home() {
 
                 </>
               )}
+              {steps[currentStep].id === 'DADOSMACOM' && (
+                <>
+                  <CCol xs={12}>
+                    <h5>Dados de Login do Maçom</h5>
+                  </CCol>
 
+                  <CCol md={12}>
+                    <CFormInput
+                      onChange={e => handleChange(e, e.target.value)}
+                      feedback="Digite seu ID Maçom."
+                      name="idMacom"
+                      value={formData.idMacom || ''}
+                      type="text"
+                      id="idMacom"
+                      label="ID Maçom"
+                      required
+                    />
+                  </CCol>
+                  <CCol md={12}>
+                    <CFormInput
+                      onChange={e => handleChange(e, e.target.value)}
+                      feedback="Digite seu E-mail."
+                      name="email"
+                      value={formData.email || ''}
+                      type="text"
+                      id="email"
+                      label="Email"
+               
+                      required
+                    />
+                  </CCol>
+
+                  <CCol md={12}>
+                    <CFormInput
+                      onChange={e => handleChange(e, e.target.value)}
+                      feedback="Digite a sua senha."
+                      name="senha"
+                      value={formData.senha || ''}
+                      type="password"
+                      id="senha"
+                      label="Senha"
+                      required
+                    />
+                  </CCol>
+
+
+
+                </>
+              )}
               <CCol xs={12}>
                 {currentStep < steps.length - 1 && (
                   <div className={classes.buttons}>
