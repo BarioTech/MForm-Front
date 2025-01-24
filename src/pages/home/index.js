@@ -359,16 +359,16 @@ export default function Home() {
         <Toolbar className={classes.toolbar}>
           {!localStorage.getItem("isLogged") ? (
             <Button href="/login" color="#3E3E3E" variant="outlined" className={classes.link}>
-              Login
+              Logar
             </Button>
           ) : (
             <>
               <Button onClick={logout} color="#3E3E3E" variant="outlined" className={classes.link}>
-                Log Out
+                Deslogar
               </Button>
 
               <Button href="/dashboard" color="#3E3E3E" variant="outlined" className={classes.link}>
-                Dashboard
+                Painel de Controle
               </Button>
             </>
           )}

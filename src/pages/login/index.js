@@ -150,7 +150,7 @@ export default function Login() {
         <Toolbar className={classes.toolbar}>
           {!localStorage.getItem("isLogged") && (
           <Button href="/login" color="#3E3E3E" variant="outlined" className={classes.link}>
-            Login
+            Logar
           </Button>
           )}
         </Toolbar>
